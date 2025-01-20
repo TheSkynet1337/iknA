@@ -14,7 +14,7 @@ public class Deck {
     private Long id;
     @Setter
     private String name;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @Setter
     private User user;

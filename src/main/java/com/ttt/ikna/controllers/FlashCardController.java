@@ -4,6 +4,7 @@ import com.ttt.ikna.dtos.FlashCardDTO;
 import com.ttt.ikna.entities.FlashCard;
 import com.ttt.ikna.repositories.FlashCardRepository;
 import com.ttt.ikna.services.FlashCardService;
+import jdk.jshell.spi.ExecutionControlProvider;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public class FlashCardController {
         this.flashCardService = flashCardService;
     }
     @GetMapping("/{id}")
-    public ResponseEntity<FlashCardDTO> find(@PathVariable long id) {
+    public ResponseEntity<FlashCardDTO> find(@PathVariable long id){
         return flashCardService.find(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
     @PatchMapping("/{id}")
