@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -14,6 +14,6 @@ public class FlashCardDTO {
     private Long deckId;
     private FlashCardSideDTO front;
     private FlashCardSideDTO back;
-    private Date dueDate;
-    private Date previousDueDate;
+    private LocalDate dueDate;
+    private LocalDate previousDueDate;
 }

@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -42,7 +44,7 @@ public class FlashCardService {
     }
 
     @Transactional
-    public FlashCardDTO save(FlashCardDTO flashCardDTO){
+    public FlashCardDTO save(FlashCardDTO flashCardDTO) {
         FlashCard flashCard = convertToEntity(flashCardDTO);
         Deck deck = deckRepository.findById(flashCardDTO.getDeckId()).orElse(null);
         flashCard.setDeck(deck);
@@ -54,7 +56,7 @@ public class FlashCardService {
         flashCardRepository.deleteById(id);
     }
 
-    public FlashCardDTO convertToDTO(FlashCard flashCard){
+    public FlashCardDTO convertToDTO(FlashCard flashCard) {
         FlashCardDTO flashCardDTO = flashCardMapper.flashCardToFlashCardDTO(flashCard);
         flashCardDTO.setFront(flashCardSideMapper.flashCardSideToFlashCardSideDTO(flashCard.getFront()));
         flashCardDTO.setBack(flashCardSideMapper.flashCardSideToFlashCardSideDTO(flashCard.getBack()));
@@ -75,15 +77,16 @@ public class FlashCardService {
         if (flashCard == null) {
             return Optional.empty();
         }
-        Date due = flashCard.getDueDate();
-        Date previousDue = flashCard.getPreviousDueDate();
-        long delta = Math.abs(due.getTime() - previousDue.getTime());//in milliseconds
-        Date newDue;
+        LocalDate due = flashCard.getDueDate();
+        LocalDate previousDue = flashCard.getPreviousDueDate();
+        Period delta = Period.between(previousDue, due);
+        LocalDate newDue;
         if (pass) {
-            //a day is 86 400 000 milliseconds long
-            newDue = new Date(due.getTime() + Math.round(delta * 1.5f) + 86400000);
-        }else{
-            newDue = new Date(due.getTime() + Math.round(delta / 1.5f));
+            //new due is old due date + 2*delta + 1 day
+            newDue = due.plus(Period.ofDays(delta.getDays() * 2 + 1));
+        } else {
+            //new due is old due date + delta/2
+            newDue = due.plus(Period.ofDays(Math.round(delta.getDays() / 2.0f)));
         }
         flashCard.setPreviousDueDate(due);
         flashCard.setDueDate(newDue);

@@ -9,17 +9,15 @@ import com.ttt.ikna.mappers.DeckMapper;
 import com.ttt.ikna.mappers.FlashCardMapper;
 import com.ttt.ikna.repositories.DeckRepository;
 import com.ttt.ikna.repositories.UserRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -74,8 +72,8 @@ public class DeckService {
             return new ArrayList<>();
         }
         List<FlashCard> flashCards = deck.getFlashCards();
-        Date now = new Date();
-        List<FlashCard> dueCards = flashCards.stream().filter((card) -> card.getDueDate().before(now)).toList();
+        LocalDate now = LocalDate.now();
+        List<FlashCard> dueCards = flashCards.stream().filter((card) -> card.getDueDate().isBefore(now)).toList();
         return dueCards.stream().map(flashCardMapper::flashCardToFlashCardDTO).toList();
     }
 }

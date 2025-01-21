@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Entity
@@ -24,9 +24,9 @@ public class FlashCard {
     @Setter
     private FlashCardSide back;
     @Setter
-    private Date dueDate;
+    private LocalDate dueDate;
     @Setter
-    private Date previousDueDate;
+    private LocalDate previousDueDate;
 
 }
 
