@@ -1,26 +1,17 @@
 package com.ttt.ikna.services;
 
 import com.ttt.ikna.dtos.FlashCardDTO;
-import com.ttt.ikna.dtos.FlashCardSideDTO;
 import com.ttt.ikna.entities.Deck;
 import com.ttt.ikna.entities.FlashCard;
-import com.ttt.ikna.entities.FlashCardSide;
-import com.ttt.ikna.entities.User;
 import com.ttt.ikna.mappers.FlashCardMapper;
-import com.ttt.ikna.mappers.FlashCardSideMapper;
 import com.ttt.ikna.repositories.DeckRepository;
 import com.ttt.ikna.repositories.FlashCardRepository;
-import com.ttt.ikna.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,7 +21,6 @@ import java.util.stream.Collectors;
 public class FlashCardService {
     private final FlashCardRepository flashCardRepository;
     private final FlashCardMapper flashCardMapper;
-    private final FlashCardSideMapper flashCardSideMapper;
     private final DeckRepository deckRepository;
 
     @Transactional(readOnly = true)
@@ -58,16 +48,16 @@ public class FlashCardService {
 
     public FlashCardDTO convertToDTO(FlashCard flashCard) {
         FlashCardDTO flashCardDTO = flashCardMapper.flashCardToFlashCardDTO(flashCard);
-        flashCardDTO.setFront(flashCardSideMapper.flashCardSideToFlashCardSideDTO(flashCard.getFront()));
-        flashCardDTO.setBack(flashCardSideMapper.flashCardSideToFlashCardSideDTO(flashCard.getBack()));
+//        flashCardDTO.setFront(flashCardSideMapper.flashCardSideToFlashCardSideDTO(flashCard.getFront()));
+//        flashCardDTO.setBack(flashCardSideMapper.flashCardSideToFlashCardSideDTO(flashCard.getBack()));
         return flashCardDTO;
     }
 
     public FlashCard convertToEntity(FlashCardDTO flashCardDTO) {
         FlashCard flashCard = flashCardMapper.flashCardDTOToFlashCard(flashCardDTO);
         flashCard.setDeck(deckRepository.findById(flashCardDTO.getDeckId()).orElse(null));
-        flashCard.setFront(flashCardSideMapper.flashCardDTOToFlashCardSide(flashCardDTO.getFront()));
-        flashCard.setBack(flashCardSideMapper.flashCardDTOToFlashCardSide(flashCardDTO.getBack()));
+//        flashCard.setFront(flashCardSideMapper.flashCardDTOToFlashCardSide(flashCardDTO.getFront()));
+//        flashCard.setBack(flashCardSideMapper.flashCardDTOToFlashCardSide(flashCardDTO.getBack()));
         return flashCard;
     }
 

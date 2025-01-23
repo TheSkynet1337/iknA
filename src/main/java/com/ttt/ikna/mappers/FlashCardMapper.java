@@ -7,7 +7,7 @@ import com.ttt.ikna.entities.FlashCard;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring",uses=FlashCardSideMapper.class)
+@Mapper(componentModel = "spring")
 public interface FlashCardMapper {
     @Mapping(source = "deck.id",target="deckId")
     FlashCardDTO flashCardToFlashCardDTO(FlashCard flashCard);

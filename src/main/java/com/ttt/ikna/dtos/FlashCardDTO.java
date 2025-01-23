@@ -12,8 +12,8 @@ import java.time.LocalDate;
 public class FlashCardDTO {
     private Long id;
     private Long deckId;
-    private FlashCardSideDTO front;
-    private FlashCardSideDTO back;
+    private String front;
+    private String back;
     private LocalDate dueDate;
     private LocalDate previousDueDate;
 }

@@ -17,12 +17,10 @@ public class FlashCard {
     @JoinColumn(name = "deck_id", nullable = false)
     @Setter
     private Deck deck;
-    @OneToOne(cascade = CascadeType.ALL)
     @Setter
-    private FlashCardSide front;
-    @OneToOne(cascade = CascadeType.ALL)
+    private String front;
     @Setter
-    private FlashCardSide back;
+    private String back;
     @Setter
     private LocalDate dueDate;
     @Setter
